@@ -181,48 +181,32 @@ class EditorInfo {
   }
 
   @computed
-  get contentType() {
-    if (props.contentType) {
-      return props.contentType;
-    }
+  get editorType () {
+    const contentType = getTabType(this.contentType)
     if (!this.file) {
-      return 'text/plain';
+      return 'textEditor'
     }
     if (typeDetect(this.file.name, ['md', 'markdown', 'mdown'])) {
-      return 'text/x-web-markdown';
+      return 'markdownEditor'
     }
     if (typeDetect(this.file.name, ['png', 'jpg', 'jpeg', 'gif', 'webp', 'ico', 'bmp'])) {
-      return 'image/jpeg';
+      return 'imageEditor'
+    }
+    switch (contentType) {
+      case 'TEXT':
+        return 'textEditor'
+      case 'HTML':
+        return 'htmlEditor'
+      case 'MARKDOWN':
+        return 'markdownEditor'
+      case 'IMAGE':
+        return 'imageEditor'
+      case 'UNKNOWN':
+        return 'unknownEditor'
+      default:
+        return 'unknownEditor'
     }
   }
-
-  // @computed
-  // get editorType () {
-  //   const contentType = getTabType(this.contentType)
-  //   if (!this.file) {
-  //     return 'textEditor'
-  //   }
-  //   if (typeDetect(this.file.name, ['md', 'markdown', 'mdown'])) {
-  //     return 'markdownEditor'
-  //   }
-  //   if (typeDetect(this.file.name, ['png', 'jpg', 'jpeg', 'gif', 'webp', 'ico', 'bmp'])) {
-  //     return 'imageEditor'
-  //   }
-  //   switch (contentType) {
-  //     case 'TEXT':
-  //       return 'textEditor'
-  //     case 'HTML':
-  //       return 'htmlEditor'
-  //     case 'MARKDOWN':
-  //       return 'markdownEditor'
-  //     case 'IMAGE':
-  //       return 'imageEditor'
-  //     case 'UNKNOWN':
-  //       return 'unknownEditor'
-  //     default:
-  //       return 'unknownEditor'
-  //   }
-  // }
 
   @computed
   get isMonaco () {

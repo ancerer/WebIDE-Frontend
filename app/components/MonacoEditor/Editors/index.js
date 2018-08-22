@@ -26,18 +26,20 @@ const editorSet = [
     editorType: 'textEditor',
     editor: CodeEditor,
   },
+  {
+    editorType: 'unknownEditor',
+    editor: UnknownEditor,
+  },
 ];
 
-function matchEditorByContentType(contentType) {
+function matchEditorByContentType(editorType, contentType) {
   for (let i = 0, n = editorSet.length; i < n; i++) {
     const set = editorSet[i];
     if (set.editorType) {
-      for (let k = 0, m = set.mime.length; k < m; k++) {
-        if (contentType.includes(set.mime[k])) {
-          return set.editor;
-        }
+      if (set.editorType === editorType) {
+        return set.editor;
       }
-    } else if (set.mimeType) {
+    } else if (set.mime) {
       if (set.mime.includes(contentType)) {
         return set.editor;
       }
@@ -75,7 +77,7 @@ const EditorWrapper = observer(({ tab, active }) => {
   // the component should re-construct or
   // keep using the existing instance.
   const key = `editor_${file.path}`;
-  const editorElement = matchEditorByContentType(editorInfo.contentType);
+  const editorElement = matchEditorByContentType(editorInfo.editorType, editorInfo.contentType);
   return React.createElement(editorElement, { editor, editorInfo, key, tab, active, language: config.mainLanguage, path: file.path, size: file.size });
   // switch (editorType) {
   //   case 'htmlEditor':
