@@ -27,7 +27,7 @@ const typeDetect = (title, types) => {
 class EditorInfo {
   constructor (props = {}) {
     this.id = props.id || uniqueId('monaco_editor_')
-    this.contentType = props.contentType || 'TEXT'
+    //this.contentType = props.contentType || 'TEXT'
     state.entities.set(this.id, this)
     EditorState.entities.set(this.id, this)
     this.update(props)
@@ -181,32 +181,48 @@ class EditorInfo {
   }
 
   @computed
-  get editorType () {
-    const contentType = getTabType(this.contentType)
+  get contentType() {
+    if (props.contentType) {
+      return props.contentType;
+    }
     if (!this.file) {
-      return 'textEditor'
+      return 'text/plain';
     }
     if (typeDetect(this.file.name, ['md', 'markdown', 'mdown'])) {
-      return 'markdownEditor'
+      return 'text/x-web-markdown';
     }
     if (typeDetect(this.file.name, ['png', 'jpg', 'jpeg', 'gif', 'webp', 'ico', 'bmp'])) {
-      return 'imageEditor'
-    }
-    switch (contentType) {
-      case 'TEXT':
-        return 'textEditor'
-      case 'HTML':
-        return 'htmlEditor'
-      case 'MARKDOWN':
-        return 'markdownEditor'
-      case 'IMAGE':
-        return 'imageEditor'
-      case 'UNKNOWN':
-        return 'unknownEditor'
-      default:
-        return 'unknownEditor'
+      return 'image/jpeg';
     }
   }
+
+  // @computed
+  // get editorType () {
+  //   const contentType = getTabType(this.contentType)
+  //   if (!this.file) {
+  //     return 'textEditor'
+  //   }
+  //   if (typeDetect(this.file.name, ['md', 'markdown', 'mdown'])) {
+  //     return 'markdownEditor'
+  //   }
+  //   if (typeDetect(this.file.name, ['png', 'jpg', 'jpeg', 'gif', 'webp', 'ico', 'bmp'])) {
+  //     return 'imageEditor'
+  //   }
+  //   switch (contentType) {
+  //     case 'TEXT':
+  //       return 'textEditor'
+  //     case 'HTML':
+  //       return 'htmlEditor'
+  //     case 'MARKDOWN':
+  //       return 'markdownEditor'
+  //     case 'IMAGE':
+  //       return 'imageEditor'
+  //     case 'UNKNOWN':
+  //       return 'unknownEditor'
+  //     default:
+  //       return 'unknownEditor'
+  //   }
+  // }
 
   @computed
   get isMonaco () {
@@ -239,7 +255,7 @@ class EditorInfo {
   // @computed get mode () {
   //   if (!this.options.mode) return ''
 
-  //   const modeinfo = 
+  //   const modeinfo =
   // }
 }
 

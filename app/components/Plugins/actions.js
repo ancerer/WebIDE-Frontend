@@ -245,6 +245,7 @@ export const pluginUnRegister = registerAction(PLUGIN_UNREGISTER_VIEW,
 export const injectComponent = (position, label, getComponent, callback) => {
   const key = label.key
   const extension = PluginRegistry.get(label.key)
+  console.log(extension)
   const view = label.key && getComponent(extension || {}, PluginRegistry, store) // ge your package conteng get all package install cache, get the store
 
   return pluginRegister({

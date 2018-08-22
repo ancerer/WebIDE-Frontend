@@ -155,7 +155,7 @@ export function initOpenFile(tabs, tabGroups) {
         const index = tabs.findIndex(tab => tab.id === activeTabId);
         if (index >= 0) {
           const { path, contentType } = tabs[index];
-          openFile({ 
+          openFile({
             path,
             contentType
           });
